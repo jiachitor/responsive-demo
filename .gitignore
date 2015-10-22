@@ -5,6 +5,7 @@ node_modules/
 output/
 test/
 .idea/
+.settings/
 npm-debug.log
 
 
