@@ -10,8 +10,8 @@ var minifycss = require('gulp-minify-css');
 var sass = require('gulp-sass');
 var less = require('gulp-less');
 
-var demo_config_list = ['demo'];
-var project = 'demo';
+var demo_config_list = ['demo','video'];
+var project = 'video';
 
 function browserSyncTask(callback) {
     // Serve files from the root of this project

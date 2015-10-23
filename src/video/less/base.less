@@ -1,0 +1,48 @@
+html{
+    
+}
+body{
+  font-size: 12px;
+  background:#ccc;   
+}
+
+.img {
+    width: 564px;
+    height: 317px;
+}
+.list{
+    .img, .img2{
+        background-size: 100% 100%; 
+        position: relative;
+        cursor: pointer;
+        opacity: 1;
+        margin-bottom: 10px;
+        transition: opacity 500ms linear 0s;
+        -webkit-transition: opacity 500ms linear 0s;
+        -o-transition: opacity 500ms linear 0s;
+        -ms-transition: opacity 500ms linear 0s;
+        -moz-transition: opacity 500ms linear 0s;
+    }
+}
+
+.layer{
+    background: #fff;
+    position: fixed;
+    .drag{
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        background: #ccc;
+    }
+}
+.layer.layer-hide{
+    display: none;
+}
+.layer.layer-show{
+    display: block;
+}
+
+
+
+
