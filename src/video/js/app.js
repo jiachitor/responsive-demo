@@ -1934,10 +1934,6 @@ $(function() {
       showMaxLength = layerW * 0.5,
       endPosition = ViewportWidth - layerW * 2;
 
-
-
-    console.log(length)
-    console.log(showMaxLength)
     if (length > showMaxLength) {
 
       if (restLeftPosition > endPosition) {
@@ -1990,8 +1986,9 @@ $(function() {
   $(".list").on("click", ".img", function(e) {
     that = $(this);
     if (e.type === "click") {
-      console.log(e.target)
+      console.log(e.target == this)
       if (e.target == this) {
+        console.log(layerShowIng)
         if (layerShowIng == 0) {
           layerShowIng = 1;
           layerShow();
@@ -2000,5 +1997,22 @@ $(function() {
         }
       }
     }
+  });
+
+  $("#chat-form").bind("submit", function() {
+    var val = MEditor.getContent();
+    if (val.length > 0) {
+      CHAT.insert({
+        title: {
+          'class': 'red bold',
+          'html': '标题'
+        },
+        content: [{
+          'class': 'blue',
+          'html': val
+        }]
+      });
+    }
+    return false;
   });
 });
