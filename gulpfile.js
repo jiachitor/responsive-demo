@@ -1,17 +1,20 @@
-var fs = require("fs");
-var gulp = require('gulp');
-var rename = require('gulp-rename');
-var browserSync = require('browser-sync');
-var gutil = require('gulp-util');
-var source = require('vinyl-source-stream');
-var assign = require('lodash.assign');
-var notify = require('gulp-notify');
-var minifycss = require('gulp-minify-css');
-var sass = require('gulp-sass');
-var less = require('gulp-less');
+var fs = require("fs"),
+    gulp = require('gulp'),
+    rename = require('gulp-rename'),
+    browserSync = require('browser-sync'),
+    gutil = require('gulp-util'),
+    source = require('vinyl-source-stream'),
+    assign = require('lodash.assign'),
+    notify = require('gulp-notify'),
+    minifycss = require('gulp-minify-css'),
+    sass = require('gulp-sass'),
+    eslint = require('gulp-eslint'),
+    concat = require("gulp-concat"),
+    order = require("gulp-order"),
+    uglify = require("gulp-uglify");
 
-var demo_config_list = ['demo','video'];
-var project = 'video';
+var demo_config_list = ['demo', 'mui-demo'],
+    project = 'mui-demo';
 
 function browserSyncTask(callback) {
     // Serve files from the root of this project
@@ -28,40 +31,68 @@ function jsTask(callback) {
     browserSync.stream();
 }
 
+// js 合并
+function jsConcatTask(callback) {
+    var config = fs.readFileSync('src/' + project + '/concat/_concatConfig.json').toString();
+    gulp
+        .src('src/' + project + '/concat/*.js')
+        .pipe(order(JSON.parse(config)))
+        .pipe(concat("bundle.js"))
+        .pipe(gulp.dest('src/' + project + '/js'))
+        .on('finish', callback);
+}
+
+// js 合并压缩
+function jsUglifyTask(callback) {
+    var f_path = ['src/' + project + '/js/bundle.js', 'src/' + project + '/js/app.js'];
+    gulp
+        .src(f_path)
+        .pipe(order(f_path))
+        .pipe(concat("app.bundle.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest('src/' + project + '/js'))
+        .on('finish', callback);
+}
+
+// 代码检测
+function jsEslintTask(callback) {
+    gulp.src(['src' + project + '/js/*.js'])
+        .pipe(eslint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(eslint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failOnError last.
+        .pipe(eslint.failOnError())
+        .on('finish', callback);
+}
+
 function sassTask(callback) {
     // Serve files from the root of this project
     gulp.src(['src/' + project + '/sass/main.scss'])
         .pipe(sass())
-        .on('error', gutil.log) 
+        .on('error', gutil.log)
         .pipe(rename('app.css'))
         .pipe(minifycss())
         .pipe(gulp.dest('src/' + project + '/css/'))
-        .pipe(browserSync.stream({stream: true}))
-        .pipe(notify('app.css to build complete'))  
-        .on('finish', callback);
-}
-
-function lessTask(callback) {
-    // Serve files from the root of this project
-    gulp.src(['src/' + project + '/less/main.less'])
-        .pipe(less())
-        .on('error', gutil.log) 
-        .pipe(rename('app.css'))
-        .pipe(minifycss())
-        .pipe(gulp.dest('src/' + project + '/css/'))
-        .pipe(browserSync.stream({stream: true}))
-        .pipe(notify('app.css to build complete'))        
+        .pipe(browserSync.stream({
+            stream: true
+        }))
+        .pipe(notify('app.css to build complete'))
         .on('finish', callback);
 }
 
 function watchTask() {
-    gulp.watch(['src' + project + '/js/*.js'], browserSync.reload);
-    gulp.watch(['src/' + project + '/less/*.less'], gulp.series(lessTask));
+    gulp.watch(['src/' + project + '/concat/*.js'], gulp.series(jsConcatTask));
+    gulp.watch(['src' + project + '/js/*.js'], gulp.series(jsEslintTask), browserSync.reload);
+    gulp.watch(['src/' + project + '/sass/*.scss'], gulp.series(sassTask));
 }
 
 gulp.task('watch', gulp.series(
     browserSyncTask,
-    gulp.parallel(lessTask,watchTask)
+    gulp.parallel(sassTask, jsConcatTask, watchTask)
 ));
 
-
+gulp.task('test', gulp.series(
+    jsConcatTask
+));
