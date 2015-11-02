@@ -129,8 +129,6 @@
 				this.previousPage.classList.add(CLASS_TRANSITIONING);
 				this.activePage.classList.add(CLASS_TRANSITIONING);
 
-
-
 				return;
 			}
 		},
