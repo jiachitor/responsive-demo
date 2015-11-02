@@ -13,8 +13,8 @@ var fs = require("fs"),
     order = require("gulp-order"),
     uglify = require("gulp-uglify");
 
-var demo_config_list = ['demo', 'mui-demo'],
-    project = 'mui-demo';
+var demo_config_list = ['demo', 'mui-demo', 'mui-demo-small'],
+    project = 'mui-demo-small';
 
 function browserSyncTask(callback) {
     // Serve files from the root of this project
