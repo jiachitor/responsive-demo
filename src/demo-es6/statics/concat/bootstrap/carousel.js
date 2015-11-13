@@ -1,4 +1,5 @@
-let Util = require("./util");
+import Util from './util'
+
 
 /**
  * --------------------------------------------------------------------------
@@ -466,4 +467,4 @@ const Carousel = (($) => {
 
 })(jQuery)
 
-module.exports = Carousel
+export default Carousel

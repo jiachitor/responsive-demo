@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -291,4 +291,4 @@ const Dropdown = (($) => {
 
 })(jQuery)
 
-module.exports = Dropdown
+export default Dropdown

@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -319,4 +319,4 @@ const ScrollSpy = (($) => {
 
 })(jQuery)
 
-module.exports = ScrollSpy
+export default ScrollSpy

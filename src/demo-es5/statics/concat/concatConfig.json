@@ -1,0 +1,16 @@
+[
+  "jquery.min.js",
+  "_affix.js",
+  "_alert.js",
+  "_button.js",
+  "_carousel.js",
+  "_collapse.js",
+  "_dropdown.js",
+  "_modal.js",
+  "_popover.js",
+  "_scrollspy.js",
+  "_tab.js",
+  "_tooltip.js",
+  "_transition.js",
+  "concat.js"
+]

@@ -1,4 +1,5 @@
-let Tooltip = require("./tooltip");
+import Tooltip from './tooltip'
+
 
 /**
  * --------------------------------------------------------------------------
@@ -187,4 +188,4 @@ const Popover = (($) => {
 
 })(jQuery)
 
-module.exports = Popover
+export default Popover

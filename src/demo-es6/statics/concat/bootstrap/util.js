@@ -157,4 +157,4 @@ const Util = (($) => {
 
 })(jQuery)
 
-module.exports = Util  
+export default Util

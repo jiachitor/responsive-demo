@@ -18,11 +18,11 @@ var fs = require("fs"),
     streamify = require('gulp-streamify'),
     buffer = require('vinyl-buffer');
 
-var demo_config_list = ['demo','demo-es6',  'mui-demo', 'mui-demo-small'],
-    project = 'demo-es6';
+var demo_config_list = ['demo-es5','demo-es6',  'mui-demo-es5', 'mui-demo-small-es5'],
+    project = 'mui-demo-small-es5';
 
 var browserify_entries = './src/'+ project +'/statics/concat/concat.js',
-    browserify_dest = 'src/' + project + '/statics/js';
+    browserify_dest = 'src/' + project + '/statics/js/';
 
 // ES6 转换
 var b = watchify(browserify(assign({}, watchify.args, {
@@ -33,7 +33,8 @@ var b = watchify(browserify(assign({}, watchify.args, {
 })));
 
 // 在这里加入变换操作
-b.transform(babelify);
+//一定要有 npm install babel-preset-es2015 --save-dev 和 npm install babel-preset-react --save-dev 这两个依赖。
+b.transform(babelify, {presets: ["es2015", "react"]}); 
 
 gulp.task('browserifyEs6Fn', bundle); // 这样你就可以运行 `gulp browserifyTask` 来编译文件了
 b.on('update', bundle); // on any dep update, runs the bundler
@@ -46,7 +47,7 @@ function bundle() {
         .pipe(source('bundle.js'))
         .pipe(buffer())
         //.pipe(uglify())
-        .pipe(gulp.dest(browserify_dest))
+        .pipe(gulp.dest('src/' + project + '/statics/js/'))
         .pipe(browserSync.reload({stream: true}));
 }
 
@@ -55,7 +56,7 @@ function browserSyncTask(callback) {
     // Serve files from the root of this project
     browserSync.init({
         server: {
-            baseDir: "./src/" + project
+            baseDir: "src/" + project
         }
     });
     callback();
@@ -124,17 +125,18 @@ function watchEs6Task() {
     gulp.watch(['src/' + project + '/statics/sass/*.scss'], gulp.series(sassTask));
 }
 
-// ES5 不需要转换
+// ES5 项目使用
 gulp.task('watch5', gulp.series(
     browserSyncTask,
     gulp.parallel(sassTask, jsConcatTask, watchEs5Task)
 ));
 
+// ES6 项目使用
 gulp.task('watch6', gulp.series(
     browserSyncTask,
     gulp.parallel(sassTask, 'browserifyEs6Fn', watchEs6Task)
 ));
 
 gulp.task('test', gulp.series(
-    jsConcatTask
+    jsUglifyTask
 ));

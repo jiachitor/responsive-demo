@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -529,4 +529,4 @@ const Modal = (($) => {
 
 })(jQuery)
 
-module.exports = Modal
+export default Modal

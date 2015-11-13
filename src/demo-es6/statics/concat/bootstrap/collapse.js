@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -375,4 +375,4 @@ const Collapse = (($) => {
 
 })(jQuery)
 
-module.exports = Collapse
+export default Collapse

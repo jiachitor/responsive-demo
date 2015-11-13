@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -272,4 +272,4 @@ const Tab = (($) => {
 
 })(jQuery)
 
-module.exports = Tab
+export default Tab

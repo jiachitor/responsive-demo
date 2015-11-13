@@ -1,4 +1,4 @@
-let Util = require("./util");
+import Util from './util'
 
 
 /**
@@ -633,4 +633,4 @@ const Tooltip = (($) => {
 
 })(jQuery)
 
-module.exports = Tooltip
+export default Tooltip

@@ -1,4 +1,5 @@
-let Util = require("./util");  
+import Util from './util'
+
 
 /**
  * --------------------------------------------------------------------------
@@ -189,5 +190,4 @@ const Alert = (($) => {
 
 })(jQuery)
 
-module.exports = Alert;
-
+export default Alert
