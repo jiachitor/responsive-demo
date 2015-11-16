@@ -18,8 +18,8 @@ var fs = require("fs"),
     streamify = require('gulp-streamify'),
     buffer = require('vinyl-buffer');
 
-var demo_config_list = ['demo-es5','demo-es6',  'mui-demo-es5', 'mui-demo-small-es5'],
-    project = 'mui-demo-small-es5';
+var demo_config_list = ['demo-es5','demo-es6',  'mui-demo-es5', 'mui-demo-small-es5','mui-demo-zAll-es5'],
+    project = 'mui-demo-zAll-es5';
 
 var browserify_entries = './src/'+ project +'/statics/concat/concat.js',
     browserify_dest = 'src/' + project + '/statics/js/';
